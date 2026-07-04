@@ -25,28 +25,60 @@ Schemat pracy:
 Starajcie się robić **małe i częste commity**.
 
 Lepiej:
-- ✅ 5 commitów po jednej konkretnej zmianie
+
+- ✅ 5 commitów po jednej konkretnej zmianie,
 
 niż:
-- ❌ 1 ogromny commit zawierający wszystko.
+
+- ❌ 1 ogromny commit zawierający wiele różnych zmian.
 
 Dzięki temu łatwiej:
+
 - znaleźć błędy,
 - przejrzeć zmiany,
-- cofnąć pojedynczą funkcjonalność, jeśli zajdzie taka potrzeba.
+- cofnąć pojedynczą funkcjonalność,
+- zrozumieć historię projektu.
 
 ---
 
 ## Pull Requesty
 
-Każdy commit powinien finalnie trafić do projektu przez **Pull Request**.
+Każda zmiana trafia do projektu przez **Pull Request**.
 
 Przy tworzeniu PR:
+
 - dodaj krótki opis, **co zostało zmienione**,
 - jeśli coś wymaga uwagi lub testów — napisz o tym,
 - nie zostawiaj pustych opisów.
+- po skończeniu pull requesta usun gałąz którą używałeś
 
 Nie musi to być długi tekst — kilka zdań w zupełności wystarczy.
+
+### Merge
+
+Do łączenia zmian z `main` używamy wyłącznie:
+
+> **Squash and Merge**
+
+Dzięki temu historia gałęzi `main` pozostaje czytelna i składa się z jednego commita na każdy zaakceptowany Pull Request.
+
+---
+
+## Labels
+
+Korzystamy z **GitHub Labels** do oznaczania Pull Requestów oraz Issue.
+
+Przykładowe zastosowania:
+
+- `frontend`
+- `backend`
+- `bug`
+- `enhancement`
+- `documentation`
+- `AI`
+- `help wanted`
+
+Jeżeli zauważycie, że przydałaby się nowa kategoria, śmiało twórzcie **własne (autorskie) labelki**. Mają one ułatwiać organizację projektu, więc nie bójcie się ich rozwijać.
 
 ---
 
@@ -60,7 +92,11 @@ Najprościej:
 git pull origin main
 ```
 
-Dobrą praktyką jest wykonanie tego przed rozpoczęciem pracy oraz przed otwarciem Pull Requesta.
+Dobrą praktyką jest wykonanie tego:
+
+- przed rozpoczęciem pracy,
+- przed otwarciem Pull Requesta,
+- po zmergowaniu większych zmian przez innych członków zespołu.
 
 ---
 
@@ -70,4 +106,4 @@ Do Pull Requestów jest automatycznie podłączony **CodeRabbit**.
 
 Będzie komentował kod i sugerował możliwe poprawki.
 
-Ja z niego korzystam na co dzień, ale decyzja, czy będziecie go używać również u siebie, należy do Was.
+Ja korzystam z niego na co dzień, ale decyzja, czy będziecie używać go również u siebie, należy do Was.
