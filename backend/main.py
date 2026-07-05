@@ -3,14 +3,16 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel,Field
 from typing import Literal,List
+from dotenv import load_dotenv
 import asyncio
 import os
 from openai import AsyncOpenAI
 
 
 #loaduje zmienne z .env
+load_dotenv(dotenv_path="../.env")
+openrouter_api_key=os.getenv("OPENROUTER_API_KEY")
 
-api_key=os.getenv("OPENROUTER_API_KEY")
 #Defined App
 app = FastAPI(
     title="Flutter AI Backend",
@@ -20,7 +22,7 @@ app = FastAPI(
 #initiated the client using OpenAi sdk
 client = AsyncOpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key=api_key
+    api_key=openrouter_api_key
 )
 #tu dajemy używany model z openrouter
 model="openai/gpt-4o-mini"
@@ -62,9 +64,9 @@ async def llm_call(chat_data: ChatHistory):
         stream=True, #ustawiamy tu model
     )
     async for chunk in stream:
-        content=chunk.chocies[0].delta.content
+        content=chunk.choices[0].delta.content
         if content:
-            yield f"data: {chunk} \n\n"
+            yield f"data: {content} \n\n"
 
 
 #here i will uswae text/event-stream and SSE logic

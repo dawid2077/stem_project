@@ -31,7 +31,7 @@ pkgs.mkShell {
     # Install the core libraries needed for FastAPI + AI Streaming
     echo "Installing FastAPI, Uvicorn, and OpenAI SDK..."
     pip install fastapi uvicorn openai
-
+    pip install python-dotenv
     # Fixes potential dynamic linker issues with certain binary Python wheels on NixOS
     export LD_LIBRARY_PATH="${pkgs.stdenv.cc.cc.lib}/lib:$LD_LIBRARY_PATH"
 
