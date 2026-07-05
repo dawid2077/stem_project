@@ -1,2 +1,4 @@
 .env
-__pycache_
+__pycache__
+learning_yield.py
+openai_sdk_learn.py
