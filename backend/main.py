@@ -4,13 +4,26 @@ from fastapi.responses import StreamingResponse
 from pydantic import BaseModel,Field
 from typing import Literal,List
 import asyncio
+import os
+from openai import AsyncOpenAI
 
+
+#loaduje zmienne z .env
+
+api_key=os.getenv("OPENROUTER_API_KEY")
 #Defined App
 app = FastAPI(
     title="Flutter AI Backend",
     description="A minimalist starting point for AI streaming",
     version="1.0.0"
 )
+#initiated the client using OpenAi sdk
+client = AsyncOpenAI(
+    base_url="https://openrouter.ai/api/v1",
+    api_key=api_key
+)
+#tu dajemy używany model z openrouter
+model="openai/gpt-4o-mini"
 
 
 #Flutter things for functionality
@@ -42,7 +55,16 @@ class ChatHistory(BaseModel):
 
 #here will be the logic for  calling llm and streaming the response
 async def llm_call(chat_data: ChatHistory):
-    yield
+    #czeka na utworzenie polaczenia i tu definiujemy strukture
+    stream = await client.chat.completions.create(
+        model=model,
+        messages=[m.model_dump() for m in chat_data.conversation],
+        stream=True, #ustawiamy tu model
+    )
+    async for chunk in stream:
+        content=chunk.chocies[0].delta.content
+        if content:
+            yield f"data: {chunk} \n\n"
 
 
 #here i will uswae text/event-stream and SSE logic
@@ -52,7 +74,7 @@ async def llm_call(chat_data: ChatHistory):
         summary="Stream Ai Response and Accepts Prompts",
         description='Here is the logic for user prompts and llm responses. It accepts the messages from Flutter'
           )
-async def stream_chat(chat_data: ChatHistory):
+async def stream_chat(chat_data: ChatHistory) -> StreamingResponse:
     return StreamingResponse(
         llm_call(chat_data),
         media_type="text/event-stream"
