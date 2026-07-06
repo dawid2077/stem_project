@@ -4,6 +4,8 @@ from fastapi.responses import StreamingResponse
 from pydantic import BaseModel,Field
 from typing import Literal,List
 from dotenv import load_dotenv
+#for formatting data chunks
+from sse_starlette.sse import EventSourceResponse
 import asyncio
 import os
 from openai import AsyncOpenAI
@@ -53,6 +55,12 @@ class Message(BaseModel):
     )
 class ChatHistory(BaseModel):
     conversation: list[Message]
+
+
+
+
+
+
 
 
 #here will be the logic for  calling llm and streaming the response
