@@ -54,7 +54,7 @@ class Message(BaseModel):
             ]
     )
 class ChatHistory(BaseModel):
-    conversation: list[Message]
+    conversation: List[Message]
 
 
 
@@ -74,7 +74,8 @@ async def llm_call(chat_data: ChatHistory):
     async for chunk in stream:
         content=chunk.choices[0].delta.content
         if content:
-            yield f"data: {content} \n\n"
+            yield {"event":"streamingesponse","data":content}
+        yield {"event": "done", "data": ""}
 
 
 #here i will uswae text/event-stream and SSE logic
@@ -84,8 +85,5 @@ async def llm_call(chat_data: ChatHistory):
         summary="Stream Ai Response and Accepts Prompts",
         description='Here is the logic for user prompts and llm responses. It accepts the messages from Flutter'
           )
-async def stream_chat(chat_data: ChatHistory) -> StreamingResponse:
-    return StreamingResponse(
-        llm_call(chat_data),
-        media_type="text/event-stream"
-    )
+async def stream_chat(chat_data: ChatHistory) -> EventSourceResponse:
+    return EventSourceResponse(llm_call(chat_data))
