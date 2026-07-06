@@ -75,7 +75,7 @@ async def llm_call(chat_data: ChatHistory):
         content=chunk.choices[0].delta.content
         if content:
             yield {"event":"streamingesponse","data":content}
-        yield {"event": "done", "data": ""}
+    yield {"event": "done", "data": ""}
 
 
 #here i will uswae text/event-stream and SSE logic
