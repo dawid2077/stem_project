@@ -63,6 +63,12 @@ class ChatHistory(BaseModel):
 
 
 
+
+
+
+
+
+
 #here will be the logic for  calling llm and streaming the response
 async def llm_call(chat_data: ChatHistory):
     #czeka na utworzenie polaczenia i tu definiujemy strukture
